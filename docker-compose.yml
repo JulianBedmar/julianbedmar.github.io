@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 8889:80
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./docs:/var/www/html
+    environment:
+      - VIRTUAL_HOST=jbp.abrahanzarza.com
+      - LETSENCRYPT_HOST=jbp.abrahanzarza.com
+      - LETSENCRYPT_EMAIL=abrahan.azr@gmail.com
+    networks:
+      - proxy_resolver
+
+  # node:
+  #   image: node:19-alpine
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./:/app
+  #   working_dir: /app
+  #   tty: true
+
+networks:
+  proxy_resolver:
+    external: true
